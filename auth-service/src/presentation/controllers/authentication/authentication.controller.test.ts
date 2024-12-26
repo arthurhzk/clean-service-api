@@ -30,6 +30,17 @@ describe("Authentication Controller", () => {
     expect(httpResponse.status).toBe(StatusCodes.BAD_REQUEST)
     expect(httpResponse.body).toEqual(new UnauthorizedError("Password is required"))
   })
+  it("should return 400 if email is invalid", async () => {
+    const httpResponse = await sut.handle({
+      body: {
+        email: faker.internet.protocol(),
+        password: faker.internet.password()
+      }
+    })
+    sut.handle(httpResponse)
+    expect(httpResponse.status).toBe(StatusCodes.BAD_REQUEST)
+    expect(httpResponse.body).toEqual(new UnauthorizedError("Invalid email"))
+  })
   it("should return 500 if an error occurs", async () => {
     vi.spyOn(sut, "handle").mockRejectedValueOnce(new ServerError("Internal Server Error"))
     const samePassword = faker.internet.password()

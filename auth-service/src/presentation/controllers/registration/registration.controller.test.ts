@@ -51,19 +51,33 @@ describe("Registration Controller", () => {
     expect(httpResponse.status).toBe(StatusCodes.BAD_REQUEST)
     expect(httpResponse.body).toEqual(new UnauthorizedError("Password and password confirmation does not match"))
   })
-  it("should return 200 if user is created", async () => {
-    const samePassword = faker.internet.password()
+  it("should return 400 if email is invalid", async () => {
+    const password = faker.internet.password()
     const httpResponse = await sut.handle({
       body: {
         name: faker.person.firstName(),
-        email: faker.internet.email(),
-        password: samePassword,
-        passwordConfirmation: samePassword
+        email: faker.internet.protocol(),
+        password: password,
+        passwordConfirmation: password
       }
     })
-    expect(httpResponse.status).toBe(StatusCodes.OK)
-    expect(httpResponse.body).toEqual({ message: "User created with success!" })
-  })
+    sut.handle(httpResponse)
+    expect(httpResponse.status).toBe(StatusCodes.BAD_REQUEST)
+    expect(httpResponse.body).toEqual(new UnauthorizedError("Invalid email"))
+  }),
+    it("should return 200 if user is created", async () => {
+      const samePassword = faker.internet.password()
+      const httpResponse = await sut.handle({
+        body: {
+          name: faker.person.firstName(),
+          email: faker.internet.email(),
+          password: samePassword,
+          passwordConfirmation: samePassword
+        }
+      })
+      expect(httpResponse.status).toBe(StatusCodes.OK)
+      expect(httpResponse.body).toEqual({ message: "User created with success!" })
+    })
   it("should return 500 if an error occurs", async () => {
     vi.spyOn(sut, "handle").mockRejectedValueOnce(new ServerError("Internal Server Error"))
     const samePassword = faker.internet.password()
