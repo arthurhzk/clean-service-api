@@ -2,14 +2,7 @@ import { HttpResponse } from "@/shared/protocols/http"
 import { Controller } from "@/shared/protocols/controller"
 import { badRequest, ok, ServerError, UnauthorizedError } from "@/shared/helpers/http-helper"
 import { EmailValidatorAdapter } from "@/shared/adapters/email-validator/email-validator.adapter"
-type RegistrationRequest = {
-  body: {
-    email: string
-    name: string
-    password: string
-    passwordConfirmation: string
-  }
-}
+import { RegistrationRequest } from "@/domain/registration/registration-request"
 
 export class RegistrationController implements Controller {
   async handle(request: RegistrationRequest): Promise<HttpResponse> {

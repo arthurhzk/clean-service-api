@@ -2,12 +2,7 @@ import { badRequest, ServerError, UnauthorizedError } from "@/shared/helpers/htt
 import { Controller } from "@/shared/protocols/controller"
 import { HttpResponse } from "@/shared/protocols/http"
 import { EmailValidatorAdapter } from "@/shared/adapters/email-validator/email-validator.adapter"
-type AuthenticationRequest = {
-  body: {
-    email: string
-    password: string
-  }
-}
+import { AuthenticationRequest } from "@/domain/authentication/authentication-request"
 
 export class AuthenticationController implements Controller {
   async handle(request: AuthenticationRequest): Promise<HttpResponse> {
