@@ -1,7 +1,7 @@
 import { badRequest, ServerError, UnauthorizedError } from "@/shared/helpers/http-helper"
 import { Controller } from "@/shared/protocols/controller"
 import { HttpResponse } from "@/shared/protocols/http"
-
+import { EmailValidatorAdapter } from "@/shared/adapters/email-validator/email-validator.adapter"
 type AuthenticationRequest = {
   body: {
     email: string
@@ -16,6 +16,10 @@ export class AuthenticationController implements Controller {
       for (const field of requiredFields) {
         if (!request.body[field]) {
           return badRequest(new UnauthorizedError(`${field.charAt(0).toUpperCase() + field.slice(1)} is required`))
+        }
+        const validateEmail = new EmailValidatorAdapter().isValid(request.body.email)
+        if (!validateEmail) {
+          return badRequest(new UnauthorizedError("Invalid email"))
         }
       }
     } catch (error) {

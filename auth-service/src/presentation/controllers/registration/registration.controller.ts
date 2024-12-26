@@ -1,7 +1,7 @@
 import { HttpResponse } from "@/shared/protocols/http"
 import { Controller } from "@/shared/protocols/controller"
 import { badRequest, ok, ServerError, UnauthorizedError } from "@/shared/helpers/http-helper"
-
+import { EmailValidatorAdapter } from "@/shared/adapters/email-validator/email-validator.adapter"
 type RegistrationRequest = {
   body: {
     email: string
@@ -24,6 +24,10 @@ export class RegistrationController implements Controller {
       }
       if (password !== passwordConfirmation) {
         return badRequest(new UnauthorizedError("Password and password confirmation does not match"))
+      }
+      const validateEmail = new EmailValidatorAdapter().isValid(request.body.email)
+      if (!validateEmail) {
+        return badRequest(new UnauthorizedError("Invalid email"))
       }
       return ok({ message: "User created with success!" })
     } catch (error) {
