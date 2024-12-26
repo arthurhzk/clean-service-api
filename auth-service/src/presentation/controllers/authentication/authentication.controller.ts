@@ -2,10 +2,10 @@ import { badRequest, ServerError, UnauthorizedError } from "@/shared/helpers/htt
 import { Controller } from "@/shared/protocols/controller"
 import { HttpResponse } from "@/shared/protocols/http"
 import { EmailValidatorAdapter } from "@/shared/adapters/email-validator/email-validator.adapter"
-import { AuthenticationRequest } from "@/domain/authentication/authentication-request"
+import { Authentication } from "@/domain/authentication/authentication-request"
 
 export class AuthenticationController implements Controller {
-  async handle(request: AuthenticationRequest): Promise<HttpResponse> {
+  async handle(request: Authentication.Request): Promise<HttpResponse> {
     try {
       const requiredFields = ["email", "password"]
       for (const field of requiredFields) {

@@ -2,10 +2,10 @@ import { HttpResponse } from "@/shared/protocols/http"
 import { Controller } from "@/shared/protocols/controller"
 import { badRequest, ok, ServerError, UnauthorizedError } from "@/shared/helpers/http-helper"
 import { EmailValidatorAdapter } from "@/shared/adapters/email-validator/email-validator.adapter"
-import { RegistrationRequest } from "@/domain/registration/registration-request"
+import { Registration } from "@/domain/registration/registration-request"
 
 export class RegistrationController implements Controller {
-  async handle(request: RegistrationRequest): Promise<HttpResponse> {
+  async handle(request: Registration.Request): Promise<HttpResponse> {
     try {
       const { password, passwordConfirmation } = request.body
 
