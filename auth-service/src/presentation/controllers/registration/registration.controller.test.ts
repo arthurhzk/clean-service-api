@@ -13,7 +13,7 @@ describe("Registration Controller", () => {
   it("should return 400 if no email is provided", async () => {
     const httpResponse = await sut.handle({
       body: {
-        email: undefined,
+        email: "",
         name: faker.person.firstName(),
         password: faker.internet.password(),
         passwordConfirmation: faker.internet.password()
@@ -27,7 +27,7 @@ describe("Registration Controller", () => {
   it("should return 400 if no name is provided", async () => {
     const httpResponse = await sut.handle({
       body: {
-        name: undefined,
+        name: "",
         email: faker.internet.email(),
         password: faker.internet.password(),
         passwordConfirmation: faker.internet.password()
