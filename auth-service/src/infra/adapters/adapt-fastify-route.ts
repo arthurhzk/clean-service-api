@@ -13,7 +13,7 @@ export const adaptRoute = (controller: Controller) => {
       res.status(httpResponse.status).send(httpResponse.body)
     } else {
       res.status(httpResponse.status).send({
-        error: httpResponse.body.message
+        error: httpResponse.body
       })
     }
   }

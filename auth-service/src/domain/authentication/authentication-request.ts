@@ -1,9 +1,8 @@
 export namespace Authentication {
   export type Request = {
-    body: {
-      email: string
-      password: string
-    }
+    email: string
+    password: string
+    name?: string
   }
   export type Response = {
     token: string
